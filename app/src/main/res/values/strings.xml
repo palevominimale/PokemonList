@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pokemon List</string>
+    <string name="pokemon_name">Bulbasaur</string>
+    <string name="pokemon_weight">10 kg</string>
+    <string name="pokemon_height">40 cm</string>
+    <string name="description_icon">Pokemon icon</string>
 </resources>

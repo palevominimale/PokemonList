@@ -1,6 +1,7 @@
 package app.seals.pokemonlist.ui
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
@@ -16,6 +17,7 @@ class MainActivityViewModel(
 ) : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.IO)
+    val list = MutableLiveData<PokemonListDomainModel>()
 
     fun load() {
         var res = PokemonListDomainModel()
@@ -23,6 +25,7 @@ class MainActivityViewModel(
             res = api.invoke()
         }.invokeOnCompletion {
             Log.e("MAVM", "$res")
+            list.postValue(res)
         }
     }
 
