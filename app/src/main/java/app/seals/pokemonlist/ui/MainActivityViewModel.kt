@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
+import app.seals.pokemonlist.domain.models.PokemonDomainModel
 import app.seals.pokemonlist.domain.models.PokemonListDomainModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,15 @@ class MainActivityViewModel(
         var res = PokemonListDomainModel()
         scope.launch {
             res = api.invoke()
+        }.invokeOnCompletion {
+            Log.e("MAVM", "$res")
+        }
+    }
+
+    fun loadId(id: Int) {
+        var res = PokemonDomainModel()
+        scope.launch {
+            res = api.invoke(id)
         }.invokeOnCompletion {
             Log.e("MAVM", "$res")
         }

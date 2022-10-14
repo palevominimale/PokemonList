@@ -3,6 +3,7 @@ package app.seals.pokemonlist.data
 import androidx.room.TypeConverter
 import app.seals.pokemonlist.data.models.SpritesDataModel
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
@@ -11,16 +12,16 @@ class Converters {
     private val gson = Gson()
 
     @TypeConverter
-    fun stringToTypes(data: String?) : ArrayList<String> {
+    fun stringToJsonObject(data: String?) : ArrayList<JsonObject> {
         if(data.isNullOrEmpty()) {
-            return arrayListOf("")
+            return arrayListOf(JsonObject())
         }
-        val type : Type = object: TypeToken<ArrayList<String>>() {}.type
+        val type : Type = object: TypeToken<ArrayList<JsonObject>>() {}.type
         return gson.fromJson(data, type)
     }
 
     @TypeConverter
-    fun typesToString(data: ArrayList<String>) : String {
+    fun jsonObjectToString(data: ArrayList<JsonObject>) : String {
         return gson.toJson(data)
     }
 
