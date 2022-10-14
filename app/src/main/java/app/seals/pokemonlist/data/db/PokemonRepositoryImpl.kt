@@ -25,4 +25,5 @@ class PokemonRepositoryImpl (context: Context) : PokemonRepository {
     override fun clear() {
         db.clear()
     }
+
 }
