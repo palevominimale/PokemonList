@@ -4,4 +4,6 @@
     <string name="pokemon_weight">10 kg</string>
     <string name="pokemon_height">40 cm</string>
     <string name="description_icon">Pokemon icon</string>
+    <string name="pokemon_type">Grass</string>
+    <string name="button_back">back</string>
 </resources>

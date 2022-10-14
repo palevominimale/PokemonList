@@ -1,4 +1,4 @@
-package app.seals.pokemonlist.ui
+package app.seals.pokemonlist.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.seals.pokemonlist.R
-import app.seals.pokemonlist.domain.models.PokemonListDomainModel
 import app.seals.pokemonlist.ui.adapters.RecyclerAdapter
+import app.seals.pokemonlist.ui.show_pokemon.ShowFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         vm.list.observe(this) {
             recycler.adapter?.notifyDataSetChanged()
         }
+
+        ShowFragment().show(supportFragmentManager, "")
     }
 
 }

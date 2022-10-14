@@ -1,6 +1,6 @@
 package app.seals.pokemonlist.di
 
-import app.seals.pokemonlist.ui.MainActivityViewModel
+import app.seals.pokemonlist.ui.main.MainActivityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

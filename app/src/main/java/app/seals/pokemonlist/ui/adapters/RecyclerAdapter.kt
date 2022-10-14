@@ -19,7 +19,6 @@ class RecyclerAdapter(
 
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val name: TextView = item.findViewById(R.id.pokemonName)
-        val icon: ImageView = item.findViewById(R.id.pokemonIcon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,14 +28,9 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val icon = data.value?.results?.get(position)?.sprites?.frontDefault
-        val bitmap : Bitmap
-        if (icon != null) {
-            bitmap = Picasso.get().load(icon).get()
-            holder.icon.setImageBitmap(bitmap)
-        }
-        holder.name.text = data.value?.results?.get(position)?.name
-        Log.e("RA", "$position $icon")
+        val name = data.value?.results?.get(position)?.name
+        holder.name.text = name
+        Log.e("RA", "$position $name")
     }
 
     override fun getItemCount(): Int = data.value?.results?.size ?: 0

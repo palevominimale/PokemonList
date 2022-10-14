@@ -1,4 +1,4 @@
-package app.seals.pokemonlist.ui
+package app.seals.pokemonlist.ui.main
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
