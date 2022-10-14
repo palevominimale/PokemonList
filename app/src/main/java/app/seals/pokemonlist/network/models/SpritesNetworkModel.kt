@@ -2,7 +2,7 @@ package app.seals.pokemonlist.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Sprites(
+data class SpritesNetworkModel(
     @SerializedName("back_default"       ) var backDefault      : String?   = null,
     @SerializedName("back_female"        ) var backFemale       : String?   = null,
     @SerializedName("back_shiny"         ) var backShiny        : String?   = null,

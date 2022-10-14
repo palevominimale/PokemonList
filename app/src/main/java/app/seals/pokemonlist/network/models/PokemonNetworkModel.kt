@@ -8,5 +8,5 @@ data class PokemonNetworkModel (
     @SerializedName("name"                     ) var name                   : String?                = null,
     @SerializedName("types"                    ) var types                  : ArrayList<String>       = arrayListOf(),
     @SerializedName("weight"                   ) var weight                 : Int?                   = null,
-    @SerializedName("sprites"                  ) var sprites                : Sprites?               = Sprites(),
+    @SerializedName("sprites"                  ) var sprites                : SpritesNetworkModel?               = SpritesNetworkModel(),
 )

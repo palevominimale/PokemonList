@@ -7,10 +7,10 @@ fun PokemonDataModel.mapToDomain() : PokemonDomainModel {
     return PokemonDomainModel(
         id = this.id,
         name = this.name,
-        type = this.type,
+        types = this.types,
         weight = this.weight,
         height = this.height,
-        image = this.image
+        sprites = this.sprites
     )
 }
 
@@ -18,10 +18,10 @@ fun PokemonDomainModel.mapToData() : PokemonDataModel {
     return PokemonDataModel(
         id = this.id,
         name = this.name,
-        type = this.type,
+        types = this.types,
         weight = this.weight,
         height = this.height,
-        image = this.image
+        sprites = this.sprites
     )
 }
 
