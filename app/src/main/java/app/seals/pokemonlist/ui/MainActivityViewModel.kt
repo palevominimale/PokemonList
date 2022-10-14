@@ -17,14 +17,13 @@ class MainActivityViewModel(
 ) : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.IO)
-    val list = MutableLiveData<PokemonListDomainModel>()
+    val list = MutableLiveData(PokemonListDomainModel())
 
     fun load() {
         var res = PokemonListDomainModel()
         scope.launch {
             res = api.invoke()
         }.invokeOnCompletion {
-            Log.e("MAVM", "$res")
             list.postValue(res)
         }
     }
