@@ -58,6 +58,7 @@
         android:fontFamily="sans-serif-condensed"/>
 
     <Button
+        android:id="@+id/closeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/pokemonTypeDialog"

@@ -16,7 +16,7 @@ data class PokemonNetworkModel (
     @SerializedName("base_experience"          ) var baseExperience         : Int?                   = null,
     @SerializedName("forms"                    ) var forms                  : ArrayList<JsonObject>       = arrayListOf(),
     @SerializedName("game_indices"             ) var gameIndices            : ArrayList<JsonObject> = arrayListOf(),
-    @SerializedName("held_items"               ) var heldItems              : ArrayList<String>      = arrayListOf(),
+    @SerializedName("held_items"               ) var heldItems              : ArrayList<JsonObject>      = arrayListOf(),
     @SerializedName("is_default"               ) var isDefault              : Boolean?               = null,
     @SerializedName("location_area_encounters" ) var locationAreaEncounters : String?                = null,
     @SerializedName("moves"                    ) var moves                  : ArrayList<JsonObject>       = arrayListOf(),
