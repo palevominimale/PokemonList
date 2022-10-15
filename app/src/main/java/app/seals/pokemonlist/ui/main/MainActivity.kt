@@ -15,17 +15,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
 
     private val vm : MainActivityViewModel by viewModel()
-    private val pokemonRepository : PokemonRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val swipe =  findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         val recycler = findViewById<RecyclerView>(R.id.recycler)
-        val recyclerAdapter = RecyclerAdapter(vm.list)
+        val recyclerAdapter = RecyclerAdapter(vm.list, supportFragmentManager)
         recycler.adapter = recyclerAdapter
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         vm.loadListFromLocalStorage()
+
         swipe.setOnRefreshListener {
             vm.load()
             swipe.isRefreshing = false
@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
         vm.list.observe(this) {
             recycler.adapter?.notifyDataSetChanged()
         }
-
-        ShowFragment(pokemonRepository).show(supportFragmentManager, "")
     }
 
 }

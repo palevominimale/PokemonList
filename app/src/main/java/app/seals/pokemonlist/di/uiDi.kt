@@ -1,8 +1,10 @@
 package app.seals.pokemonlist.di
 
 import app.seals.pokemonlist.ui.main.MainActivityViewModel
+import app.seals.pokemonlist.ui.show_pokemon.ShowFragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import kotlin.math.sin
 
 val uiDi = module {
 
@@ -10,6 +12,13 @@ val uiDi = module {
         MainActivityViewModel(
             api = get(),
             repo = get()
+        )
+    }
+
+    single {
+        ShowFragment(
+            pokemonRepository = get(),
+            api = get()
         )
     }
 

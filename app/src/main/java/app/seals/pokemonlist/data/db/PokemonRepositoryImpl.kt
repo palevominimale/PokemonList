@@ -17,6 +17,10 @@ class PokemonRepositoryImpl (context: Context) : PokemonRepository {
         return db.getPokemonByIdData(id).mapToDomain()
     }
 
+    override fun getPokemonByName(name: String) : PokemonDomainModel? {
+        return db.getPokemonByName(name)?.mapToDomain()
+    }
+
     override fun getPokemonMiniByName(name: String): PokemonSmallDomainModel {
         return db.getPokemonMiniByName(name).mapToDomain()
     }

@@ -13,6 +13,9 @@ interface PokemonDAO {
     @Query("SELECT * FROM Pokemons WHERE id LIKE :id LIMIT 1")
     fun getPokemonByIdData(id: Long) : PokemonDataModel
 
+    @Query("SELECT * FROM Pokemons WHERE name LIKE :name LIMIT 1")
+    fun getPokemonByName(name: String) : PokemonDataModel?
+
     @Query("SELECT * FROM PokemonsMini WHERE name LIKE :name LIMIT 1")
     fun getPokemonMiniByName(name: String) : PokemonSmallDataModel
 

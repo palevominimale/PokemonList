@@ -7,14 +7,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import app.seals.pokemonlist.R
+import app.seals.pokemonlist.domain.interfaces.ApiGetData
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ShowFragment(
-    private val pokemonRepository: PokemonRepository
+    private val pokemonRepository: PokemonRepository,
+    private val api : ApiGetData,
 ) : DialogFragment() {
 
     private var id: String? = null
@@ -41,13 +47,31 @@ class ShowFragment(
         }
 
         if (!tag.isNullOrEmpty()) {
-            val pokemon = pokemonRepository.getPokemonById(tag?.toLongOrNull() ?: 0)
-            val sprite = pokemon.sprites?.frontDefault
-            if(!sprite.isNullOrEmpty()) icon.setImageBitmap(Picasso.get().load(sprite).get())
-            name.text = pokemon.name
-            type.text = pokemon.types[0].asString
-            height.text = pokemon.height.toString()
-            weight.text = pokemon.weight.toString()
+
+            val pokemonMini = pokemonRepository.getPokemonMiniByName(tag ?: "bulbasaur")
+            var pokemon = pokemonRepository.getPokemonByName(pokemonMini.name?: "bulbasaur")
+
+            fun load() {
+                val sprite = pokemon?.sprites?.frontDefault
+                if(!sprite.isNullOrEmpty()) icon.setImageBitmap(Picasso.get().load(sprite).get())
+                name.text = pokemon?.name
+                type.text = pokemon?.types?.get(0)?.asString ?: ""
+                height.text = pokemon?.height.toString()
+                weight.text = pokemon?.weight.toString()
+            }
+
+            if (pokemon != null) {
+                load()
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0)
+                }.invokeOnCompletion {
+                    pokemon = pokemonRepository.getPokemonByName(pokemonMini.name ?: "bulbasaur")
+                    requireActivity().runOnUiThread {
+                        load()
+                    }
+                }
+            }
         }
     }
 

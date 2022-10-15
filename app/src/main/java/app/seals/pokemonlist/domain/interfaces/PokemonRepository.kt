@@ -6,6 +6,7 @@ import app.seals.pokemonlist.domain.models.PokemonSmallDomainModel
 interface PokemonRepository {
 
     fun getPokemonById(id: Long) : PokemonDomainModel
+    fun getPokemonByName(name: String) : PokemonDomainModel?
     fun getPokemonMiniByName(name: String) : PokemonSmallDomainModel
 
     fun getAll() : List<PokemonDomainModel>
