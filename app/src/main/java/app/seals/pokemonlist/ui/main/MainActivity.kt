@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = recyclerAdapter
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         vm.loadListFromLocalStorage()
-
+        vm.loadId(0)
         swipe.setOnRefreshListener {
             vm.load()
             swipe.isRefreshing = false
