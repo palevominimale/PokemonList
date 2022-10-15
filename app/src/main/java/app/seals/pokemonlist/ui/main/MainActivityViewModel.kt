@@ -35,6 +35,11 @@ class MainActivityViewModel(
         }
     }
 
+    fun loadListFromLocalStorage() {
+        val a = repo.getAllMini()
+        list.postValue(PokemonListDomainModel(results = ArrayList(a)))
+    }
+
     fun loadId(id: Int) {
         var res = PokemonDomainModel()
         scope.launch {
