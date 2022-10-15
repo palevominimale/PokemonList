@@ -1,9 +1,35 @@
 package app.seals.pokemonlist.data
 
 import app.seals.pokemonlist.data.models.PokemonDataModel
+import app.seals.pokemonlist.data.models.PokemonSmallDataModel
 import app.seals.pokemonlist.data.models.SpritesDataModel
 import app.seals.pokemonlist.domain.models.PokemonDomainModel
+import app.seals.pokemonlist.domain.models.PokemonSmallDomainModel
 import app.seals.pokemonlist.domain.models.SpritesDomainModel
+
+fun PokemonSmallDomainModel.mapToData() : PokemonSmallDataModel {
+    return PokemonSmallDataModel(name ?: "", url)
+}
+
+fun PokemonSmallDataModel.mapToDomain() : PokemonSmallDomainModel {
+    return PokemonSmallDomainModel(name, url)
+}
+
+fun List<PokemonSmallDataModel>.mapMiniListToDomain() : List<PokemonSmallDomainModel> {
+    val res = mutableListOf<PokemonSmallDomainModel>()
+    this.forEach {
+        res.add(it.mapToDomain())
+    }
+    return res
+}
+
+fun List<PokemonSmallDomainModel>.mapMiniListToData() : List<PokemonSmallDataModel> {
+    val res = mutableListOf<PokemonSmallDataModel>()
+    this.forEach {
+        res.add(it.mapToData())
+    }
+    return res
+}
 
 fun PokemonDataModel.mapToDomain() : PokemonDomainModel {
     return PokemonDomainModel(

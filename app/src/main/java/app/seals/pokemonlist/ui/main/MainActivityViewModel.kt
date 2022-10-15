@@ -28,16 +28,10 @@ class MainActivityViewModel(
             res = api.invoke()
         }.invokeOnCompletion {
             list.postValue(res)
-            res.results.forEach {
-                scope.launch {
-                    repo.clear()
-                    Log.e("MAVM", "$it")
-                    val id = it.url?.toUri()?.lastPathSegment
-                    val pokemon = api.invoke((id ?: "0").toInt() +1)
-                    Log.e("MAVM", "$pokemon")
-                    repo.addPokemon(pokemon)
-                }
-            }
+            repo.clearMini()
+            repo.addPokemonMiniList(res.results)
+            Log.e("MAVM", "${res.results}")
+            Log.e("MAVM_mini", "${repo.getAllMini()}")
         }
     }
 

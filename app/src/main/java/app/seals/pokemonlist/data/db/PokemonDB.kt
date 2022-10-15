@@ -7,8 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import app.seals.pokemonlist.data.Converters
 import app.seals.pokemonlist.data.models.PokemonDataModel
+import app.seals.pokemonlist.data.models.PokemonSmallDataModel
 
-@Database(entities = [PokemonDataModel::class], version = 1, exportSchema = false)
+@Database(entities = [PokemonDataModel::class, PokemonSmallDataModel::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PokemonDB: RoomDatabase() {
 

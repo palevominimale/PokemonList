@@ -1,9 +1,12 @@
 package app.seals.pokemonlist.data.models
 
-import com.google.gson.annotations.SerializedName
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "PokemonsMini")
 data class PokemonSmallDataModel (
-    @SerializedName("name")     val name: String? = null,
-    @SerializedName("url")      val url: String? = null
+    @PrimaryKey                         val name: String = "",
+    @ColumnInfo(name="url")             val url: String? = null
 ) : Serializable

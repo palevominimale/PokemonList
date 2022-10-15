@@ -6,13 +6,13 @@ import app.seals.pokemonlist.network.ApiRequest
 import org.koin.dsl.module
 
 val networkDi = module {
-    single {
+    factory {
         ApiGetDataImpl(
             apiRequest = ApiRequest()
         )
     }
 
-    single <ApiGetData>{
+    factory <ApiGetData>{
         ApiGetDataImpl(
             apiRequest = get()
         )
