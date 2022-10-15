@@ -1,16 +1,24 @@
 package app.seals.pokemonlist.di
 
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
-import app.seals.pokemonlist.network.ApiGetDataImpl
-import app.seals.pokemonlist.network.ApiRequest
+import app.seals.pokemonlist.network.api.ApiGetDataImpl
+import app.seals.pokemonlist.network.api.ApiRequest
+import app.seals.pokemonlist.network.checkers.CheckInternetConnectivity
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val networkDi = module {
 
+    single {
+        CheckInternetConnectivity(
+            context = androidContext()
+        )
+    }
+
     factory <ApiGetData>{
         ApiGetDataImpl(
-            apiRequest = get()
+            apiRequest = get(),
+            checkInternet = get()
         )
     }
 

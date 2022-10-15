@@ -1,4 +1,4 @@
-package app.seals.pokemonlist.network
+package app.seals.pokemonlist.network.api
 
 import com.google.gson.JsonObject
 import retrofit2.http.GET
