@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentManager
 import app.seals.pokemonlist.R
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
+import app.seals.pokemonlist.domain.models.PokemonTypesDomainModel
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -65,9 +67,11 @@ class ShowFragment(
                     }
                 }
                 name.text = pokemon?.name
-                type.text = pokemon?.types?.get(0)?.toString() ?: ""
-                height.text = pokemon?.height.toString()
-                weight.text = pokemon?.weight.toString()
+                val pokemonType = pokemon?.types?.get(0)?.toString() ?: ""
+                val typeObj = Gson().fromJson(pokemonType, PokemonTypesDomainModel::class.java)
+                type.text = typeObj.type?.name
+                height.text = "${pokemon?.height} cm"
+                weight.text = "${pokemon?.weight} kg"
             }
 
             if (pokemon != null) {
