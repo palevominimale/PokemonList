@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class ShowFragment(
     private val pokemonRepository: PokemonRepository,
     private val api : ApiGetData,
@@ -49,7 +50,6 @@ class ShowFragment(
         }
 
         if (!tag.isNullOrEmpty()) {
-
             val pokemonMini = pokemonRepository.getPokemonMiniByName(tag ?: "bulbasaur")
             var pokemon = pokemonRepository.getPokemonByName(pokemonMini.name?: "bulbasaur")
 
