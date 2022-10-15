@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -92,6 +93,11 @@ class ShowFragment(
     override fun show(manager: FragmentManager, tag: String?) {
         super.show(manager, tag)
         id = tag
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        scope.cancel()
     }
 
 }
