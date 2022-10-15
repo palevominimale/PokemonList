@@ -1,5 +1,6 @@
 package app.seals.pokemonlist.ui.show_pokemon
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class ShowFragment(
 ) : DialogFragment() {
 
     private var id: String? = null
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,9 +55,17 @@ class ShowFragment(
 
             fun load() {
                 val sprite = pokemon?.sprites?.frontDefault
-                if(!sprite.isNullOrEmpty()) icon.setImageBitmap(Picasso.get().load(sprite).get())
+                var bitmap : Bitmap
+                if(!sprite.isNullOrEmpty()) {
+                    scope.launch {
+                        bitmap = Picasso.get().load(sprite).get()
+                        requireActivity().runOnUiThread {
+                            icon.setImageBitmap(bitmap)
+                        }
+                    }
+                }
                 name.text = pokemon?.name
-                type.text = pokemon?.types?.get(0)?.asString ?: ""
+                type.text = pokemon?.types?.get(0)?.toString() ?: ""
                 height.text = pokemon?.height.toString()
                 weight.text = pokemon?.weight.toString()
             }
@@ -63,8 +73,8 @@ class ShowFragment(
             if (pokemon != null) {
                 load()
             } else {
-                CoroutineScope(Dispatchers.IO).launch {
-                    api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0)
+                scope.launch {
+                    pokemonRepository.addPokemon(api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0))
                 }.invokeOnCompletion {
                     pokemon = pokemonRepository.getPokemonByName(pokemonMini.name ?: "bulbasaur")
                     requireActivity().runOnUiThread {
