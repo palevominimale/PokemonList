@@ -20,17 +20,17 @@ class ApiGetDataImpl (
         val TAG = getScopeName()
     }
 
-    override suspend fun invoke() : PokemonListDomainModel {
+    override suspend fun invoke() : PokemonListDomainModel? {
         return if(checkInternet.invoke()){
             Gson().fromJson(
                 apiRequest.retrofit.getPokemonsList(),
                 PokemonListDomainModel::class.java
             )
-        } else PokemonListDomainModel()
+        } else null
 
     }
 
-    override suspend fun invoke(id: Int) : PokemonDomainModel {
+    override suspend fun invoke(id: Int) : PokemonDomainModel? {
         var res = PokemonDomainModel()
         return if(checkInternet.invoke()) {
             try {
@@ -42,7 +42,7 @@ class ApiGetDataImpl (
                 Log.e("${TAG}_AGDI", "An error has been occurred: ${e.response()}")
             }
             res
-        } else res
+        } else null
     }
 
 }

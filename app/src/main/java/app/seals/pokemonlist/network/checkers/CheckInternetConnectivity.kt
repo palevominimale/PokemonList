@@ -6,7 +6,6 @@ import android.util.Log
 import org.koin.core.component.getScopeName
 
 class CheckInternetConnectivity (context: Context) {
-
     companion object {
         val TAG = getScopeName()
     }
@@ -16,7 +15,7 @@ class CheckInternetConnectivity (context: Context) {
 
     fun invoke() : Boolean {
         val isConnected = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) != null
-        Log.e("${TAG}_CIC", "Connection established: $isConnected")
+        Log.e("${TAG}_CIC", "Connection is established: $isConnected")
         return isConnected
     }
 
