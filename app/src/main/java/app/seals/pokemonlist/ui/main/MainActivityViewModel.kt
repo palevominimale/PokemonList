@@ -48,13 +48,4 @@ class MainActivityViewModel(
         val a = repo.getAllMini()
         list.postValue(PokemonListDomainModel(results = ArrayList(a)))
     }
-
-//    fun loadId(id: Int) {
-//        var res = PokemonDomainModel()
-//        scope.launch {
-//            res = api.invoke(id)
-//        }.invokeOnCompletion {
-//            Log.e("MAVM", "$res")
-//        }
-//    }
 }

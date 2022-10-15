@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.seals.pokemonlist.R
-import app.seals.pokemonlist.domain.interfaces.PokemonRepository
 import app.seals.pokemonlist.ui.adapters.RecyclerAdapter
-import app.seals.pokemonlist.ui.show_pokemon.ShowFragment
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
