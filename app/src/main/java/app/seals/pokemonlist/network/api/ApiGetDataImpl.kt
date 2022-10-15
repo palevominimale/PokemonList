@@ -32,7 +32,7 @@ class ApiGetDataImpl (
 
     override suspend fun invoke(id: Int) : PokemonDomainModel {
         var res = PokemonDomainModel()
-        if(checkInternet.invoke()) {
+        return if(checkInternet.invoke()) {
             try {
                 res = Gson().fromJson(
                     apiRequest.retrofit.getPokemonById(id),
@@ -41,8 +41,8 @@ class ApiGetDataImpl (
             } catch (e: HttpException) {
                 Log.e("${TAG}_AGDI", "An error has been occurred: ${e.response()}")
             }
-            return res
-        } else return res
+            res
+        } else res
     }
 
 }
