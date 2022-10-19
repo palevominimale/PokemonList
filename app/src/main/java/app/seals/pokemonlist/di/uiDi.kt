@@ -12,8 +12,7 @@ val uiDi = module {
     viewModel {
         MainActivityViewModel(
             api = get(),
-            repo = get(),
-            application = androidApplication()
+            repo = get()
         )
     }
 
@@ -23,5 +22,4 @@ val uiDi = module {
             api = get()
         )
     }
-
 }

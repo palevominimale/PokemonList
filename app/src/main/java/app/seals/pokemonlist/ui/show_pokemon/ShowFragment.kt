@@ -79,7 +79,10 @@ class ShowFragment(
                 load()
             } else {
                 scope.launch {
-                    pokemonRepository.addPokemon(api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0))
+                    val pokemonAdd = api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0)
+                    if (pokemonAdd != null) {
+                        pokemonRepository.addPokemon(pokemonAdd)
+                    }
                 }.invokeOnCompletion {
                     pokemon = pokemonRepository.getPokemonByName(pokemonMini.name ?: "bulbasaur")
                     requireActivity().runOnUiThread {

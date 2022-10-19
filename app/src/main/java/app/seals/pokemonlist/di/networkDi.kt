@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val networkDi = module {
 
-    single {
+    factory {
         CheckInternetConnectivity(
             context = androidContext()
         )
