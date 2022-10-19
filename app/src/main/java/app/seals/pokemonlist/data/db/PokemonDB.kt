@@ -21,7 +21,7 @@ abstract class PokemonDB: RoomDatabase() {
         fun getInstance(context: Context): PokemonDB? {
             if (INSTANCE == null) synchronized(PokemonDB::class) {
                 INSTANCE = Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     PokemonDB::class.java,
                     "pokemons.db"
                 ).allowMainThreadQueries()

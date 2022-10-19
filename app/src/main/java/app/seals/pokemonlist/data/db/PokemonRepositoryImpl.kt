@@ -9,20 +9,20 @@ import app.seals.pokemonlist.domain.interfaces.PokemonRepository
 import app.seals.pokemonlist.domain.models.PokemonDomainModel
 import app.seals.pokemonlist.domain.models.PokemonSmallDomainModel
 
-class PokemonRepositoryImpl (context: Context) : PokemonRepository {
+open class PokemonRepositoryImpl (context: Context) : PokemonRepository {
 
-    private val db : PokemonDAO = PokemonDB.getInstance(context)?.dao()!!
+    open var db : PokemonDAO = PokemonDB.getInstance(context)?.dao()!!
 
-    override fun getPokemonById(id: Long) : PokemonDomainModel {
-        return db.getPokemonByIdData(id).mapToDomain()
+    override fun getPokemonById(id: Long) : PokemonDomainModel? {
+        return db.getPokemonByIdData(id)?.mapToDomain()
     }
 
     override fun getPokemonByName(name: String) : PokemonDomainModel? {
         return db.getPokemonByName(name)?.mapToDomain()
     }
 
-    override fun getPokemonMiniByName(name: String): PokemonSmallDomainModel {
-        return db.getPokemonMiniByName(name).mapToDomain()
+    override fun getPokemonMiniByName(name: String): PokemonSmallDomainModel? {
+        return db.getPokemonMiniByName(name)?.mapToDomain()
     }
 
     override fun getAll(): List<PokemonDomainModel> {
