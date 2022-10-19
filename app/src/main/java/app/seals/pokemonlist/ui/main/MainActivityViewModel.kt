@@ -1,6 +1,10 @@
 package app.seals.pokemonlist.ui.main
 
-import android.util.Log
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
@@ -18,6 +22,19 @@ open class MainActivityViewModel(
     private val scope = CoroutineScope(Dispatchers.IO)
     val list = MutableLiveData(PokemonListDomainModel())
     val connectionError = MutableLiveData(false)
+    val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+
+    var receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val notConnected = intent.getBooleanExtra(
+                ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)
+            if (notConnected) {
+                connectionError.postValue(true)
+            } else {
+                connectionError.postValue(false)
+            }
+        }
+    }
 
     open fun load() {
         var res : PokemonListDomainModel? = null
@@ -28,12 +45,9 @@ open class MainActivityViewModel(
                 list.postValue(res)
                 repo.clearMini()
                 repo.addPokemonMiniList(res!!.results)
-                Log.e("MAVM", "${res!!.results}")
-                Log.e("MAVM_mini", "${repo.getAllMini()}")
             } else {
                 connectionError.postValue(true)
             }
-
         }
     }
 

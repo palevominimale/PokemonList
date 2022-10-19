@@ -28,12 +28,20 @@ class MainActivity : AppCompatActivity() {
             swipe.isRefreshing = false
         }
 
+        registerReceiver(vm.receiver, vm.filter)
+
         vm.list.observe(this) {
             recycler.adapter?.notifyDataSetChanged()
         }
 
         vm.connectionError.observe(this) {
-            if(it) Toast.makeText(this, "An connection error has been occurred", Toast.LENGTH_SHORT).show()
+            if(it) {
+                Toast.makeText(this, "An connection error has been occurred", Toast.LENGTH_SHORT).show()
+                supportActionBar?.title = "${getString(R.string.app_name)} - No internet!"
+            } else {
+                Toast.makeText(this, "Internet connection has been established", Toast.LENGTH_SHORT).show()
+                supportActionBar?.title = getString(R.string.app_name)
+            }
         }
     }
 
