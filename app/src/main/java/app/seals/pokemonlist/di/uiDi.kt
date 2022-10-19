@@ -19,7 +19,8 @@ val uiDi = module {
     single {
         ShowFragment(
             pokemonRepository = get(),
-            api = get()
+            api = get(),
+            checkInternet = get()
         )
     }
 }

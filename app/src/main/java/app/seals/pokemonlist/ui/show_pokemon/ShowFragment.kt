@@ -2,6 +2,7 @@ package app.seals.pokemonlist.ui.show_pokemon
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,10 @@ import androidx.fragment.app.FragmentManager
 import app.seals.pokemonlist.R
 import app.seals.pokemonlist.domain.interfaces.ApiGetData
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
+import app.seals.pokemonlist.domain.models.PokemonDomainModel
+import app.seals.pokemonlist.domain.models.PokemonSmallDomainModel
 import app.seals.pokemonlist.domain.models.PokemonTypesDomainModel
+import app.seals.pokemonlist.network.checkers.CheckInternetConnectivity
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -26,51 +30,68 @@ import kotlinx.coroutines.launch
 class ShowFragment(
     private val pokemonRepository: PokemonRepository,
     private val api : ApiGetData,
+    private val checkInternet: CheckInternetConnectivity
 ) : DialogFragment() {
 
     private var id: String? = null
     private val scope = CoroutineScope(Dispatchers.IO)
+    private var pokemon : PokemonDomainModel? = null
+    private var pokemonMini : PokemonSmallDomainModel? = null
+    private lateinit var name : TextView
+    private lateinit var type : TextView
+    private lateinit var height : TextView
+    private lateinit var weight : TextView
+    private lateinit var icon : ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_show, container, false)
+        pokemonMini = pokemonRepository.getPokemonMiniByName(tag ?: "")
+        pokemon = pokemonRepository.getPokemonByName(pokemonMini?.name?: "")
+        return if (pokemon != null) {
+            inflater.inflate(R.layout.fragment_show, container, false)
+        } else {
+            inflater.inflate(R.layout.fragment_show_no_internet, container, false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val name = view.findViewById<TextView>(R.id.pokemonNameDialog)
-        val type = view.findViewById<TextView>(R.id.pokemonTypeDialog)
-        val height = view.findViewById<TextView>(R.id.pokemonHeightDialog)
-        val weight = view.findViewById<TextView>(R.id.pokemonWeightDialog)
-        val icon = view.findViewById<ImageView>(R.id.pokemonIconDialog)
+        if(pokemon != null) {
+            name = view.findViewById(R.id.pokemonNameDialog)
+            type = view.findViewById(R.id.pokemonTypeDialog)
+            height = view.findViewById(R.id.pokemonHeightDialog)
+            weight = view.findViewById(R.id.pokemonWeightDialog)
+            icon = view.findViewById(R.id.pokemonIconDialog)
+        }
         val close = view.findViewById<Button>(R.id.closeFragment)
-
         close.setOnClickListener {
             dismiss()
         }
 
-        if (!tag.isNullOrEmpty()) {
-            val pokemonMini = pokemonRepository.getPokemonMiniByName(tag ?: "bulbasaur")
-            var pokemon = pokemonRepository.getPokemonByName(pokemonMini.name?: "bulbasaur")
 
+        if (!tag.isNullOrEmpty()) {
             fun load() {
                 val sprite = pokemon?.sprites?.frontDefault
                 var bitmap : Bitmap
                 if(!sprite.isNullOrEmpty()) {
-                    scope.launch {
-                        bitmap = Picasso.get().load(sprite).get()
-                        requireActivity().runOnUiThread {
-                            icon.setImageBitmap(bitmap)
+                    if(checkInternet.invoke()) scope.launch {
+                        try {
+                            bitmap = Picasso.get().load(sprite).get()
+                            requireActivity().runOnUiThread {
+                                icon.setImageBitmap(bitmap)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("SF", e.localizedMessage!!.toString())
                         }
                     }
                 }
                 name.text = pokemon?.name
-                val pokemonType = pokemon?.types?.get(0)?.toString() ?: ""
+                val pokemonType = pokemon?.types?.get(0)?.toString()
                 val typeObj = Gson().fromJson(pokemonType, PokemonTypesDomainModel::class.java)
-                type.text = typeObj.type?.name
+                type.text = typeObj.type?.name.toString()
                 height.text = "${pokemon?.height} cm"
                 weight.text = "${pokemon?.weight} kg"
             }
@@ -78,13 +99,13 @@ class ShowFragment(
             if (pokemon != null) {
                 load()
             } else {
-                scope.launch {
-                    val pokemonAdd = api.invoke(pokemonMini.url?.toUri()?.lastPathSegment?.toInt() ?: 0)
+                if(checkInternet.invoke()) scope.launch {
+                    val pokemonAdd = api.invoke(pokemonMini?.url?.toUri()?.lastPathSegment?.toInt() ?: 0)
                     if (pokemonAdd != null) {
                         pokemonRepository.addPokemon(pokemonAdd)
                     }
                 }.invokeOnCompletion {
-                    pokemon = pokemonRepository.getPokemonByName(pokemonMini.name ?: "bulbasaur")
+                    pokemon = pokemonRepository.getPokemonByName(pokemonMini?.name ?: "bulbasaur")
                     requireActivity().runOnUiThread {
                         load()
                     }
