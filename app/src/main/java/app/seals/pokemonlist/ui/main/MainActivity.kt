@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity() {
 
         vm.connectionError.observe(this) {
             if(it) {
-                Toast.makeText(this, "A connection error has been occurred", Toast.LENGTH_SHORT).show()
-                supportActionBar?.title = "${getString(R.string.app_name)} - No internet!"
+                Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                supportActionBar?.title = "${getString(R.string.app_name)} - ${getString(R.string.no_internet)}!"
             } else {
-                Toast.makeText(this, "Internet connection has been established", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.connection_established), Toast.LENGTH_SHORT).show()
                 supportActionBar?.title = getString(R.string.app_name)
             }
         }

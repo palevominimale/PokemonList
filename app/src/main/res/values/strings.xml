@@ -7,4 +7,6 @@
     <string name="pokemon_type">No data</string>
     <string name="button_back">back</string>
     <string name="no_internet">No internet!</string>
+    <string name="connection_established">Internet connection has been established</string>
+    <string name="connection_error">A connection error has been occurred!</string>
 </resources>
