@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.seals.pokemonlist.R
 import app.seals.pokemonlist.domain.interfaces.PokemonRepository
 import app.seals.pokemonlist.domain.models.PokemonListDomainModel
+import app.seals.pokemonlist.network.checkers.CheckInternetConnectivity
 import app.seals.pokemonlist.ui.show_pokemon.ShowFragment
 import org.koin.java.KoinJavaComponent.inject
 

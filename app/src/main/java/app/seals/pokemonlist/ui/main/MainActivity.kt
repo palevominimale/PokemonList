@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.seals.pokemonlist.R
+import app.seals.pokemonlist.network.checkers.CheckInternetConnectivity
 import app.seals.pokemonlist.ui.adapters.RecyclerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.java.KoinJavaComponent.inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = recyclerAdapter
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         vm.loadListFromLocalStorage()
+
         swipe.setOnRefreshListener {
+            if(vm.connectionError.value != true)
             vm.load()
             swipe.isRefreshing = false
         }
@@ -36,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         vm.connectionError.observe(this) {
             if(it) {
-                Toast.makeText(this, "An connection error has been occurred", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "A connection error has been occurred", Toast.LENGTH_SHORT).show()
                 supportActionBar?.title = "${getString(R.string.app_name)} - No internet!"
             } else {
                 Toast.makeText(this, "Internet connection has been established", Toast.LENGTH_SHORT).show()
