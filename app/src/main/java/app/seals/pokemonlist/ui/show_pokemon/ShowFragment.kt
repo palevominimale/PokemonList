@@ -61,6 +61,7 @@ class ShowFragment(
         }
 
         if (!tag.isNullOrEmpty()) {
+
             fun load() {
                 val sprite = pokemon?.sprites?.frontDefault
                 var bitmap : Bitmap

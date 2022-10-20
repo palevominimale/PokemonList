@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 open class MainActivityViewModel(
     private val api : ApiGetData,
     private val repo : PokemonRepository
